@@ -1,0 +1,391 @@
+{
+  "metrics": {
+    "total_tests": 20,
+    "passed": 20,
+    "failed": 0,
+    "accuracy_percent": 100.0,
+    "avg_latency_seconds": 6.22
+  },
+  "details": [
+    {
+      "id": 1,
+      "question": "How do path parameters work in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 8.43,
+      "answer": [
+        {
+          "type": "text",
+          "text": "In FastAPI, path parameters are defined by using Python format string syntax directly in the path decorator. When you include a parameter name inside curly braces `{}` in the path string, FastAPI automatically treats it as a path parameter and injects it into your function based on the argument name.\n\nHere is the standard way to define and use them:\n\n### Basic Example\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: int):\n    return {\"item_id\": item_id}\n```\n\n### Key points:\n1.  **Declaration**: You define the parameter in the path string (e.g., `/items/{item_id}`).\n2.  **Type Hinting**: You define the same variable name as an argument in your function. FastAPI will automatically convert the value from the URL (which is always a string) into the type you specify in your function signature (e.g., `int` in the example above).\n3.  **Validation**: If the user provides a value that cannot be converted to the specified type (e.g., passing `/items/foo` when you expect an `int`), FastAPI will automatically return a clear, helpful error response to the client.\n4.  **Order**: The order of the parameters in your function does not matter; FastAPI matches them by name.\n\nIf you need more advanced validation (like ensuring an integer is within a certain range), you can use FastAPI's `Path` class:\n\n```python\nfrom fastapi import Path\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(\n    item_id: int = Path(title=\"The ID of the item\", ge=1)\n):\n    return {\"item_id\": item_id}\n```\n\nIn this example, `ge=1` ensures that the `item_id` must be greater than or equal to 1.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIP591K27c1k9SsFs6Uj2Bg9zuFH5xP9rP3q5Sza7cvrWP4BKAjUvc2BylGM/vY"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "What is the status of ticket TCK-101?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.3,
+      "answer": [
+        {
+          "type": "text",
+          "text": "The status of ticket TCK-101 is **OPEN**. It is marked as **HIGH** priority and concerns a database connection pooling failure in production.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIP2I/iwoVgmVomqnUgsKZn1FtYOzLN2Dt8LNd6thdjJR8BLdyJ3D6yoPvkRO7a"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "Hello! How are you doing today?",
+      "category": "general_chat",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 0.69,
+      "answer": [
+        {
+          "type": "text",
+          "text": "I'm doing great, thank you for asking! How can I help you with FastAPI or any support tickets today?",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPvYxz9WBQQz/CgFAVL3fGdMN9AXpRypAiaWd7mMqPDbC2W0I5HhRWWS5pIkXF"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "Tell me about asynchronous code and concurrency in FastAPI.",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 5.35,
+      "answer": [
+        {
+          "type": "text",
+          "text": "FastAPI is built on top of **Starlette** and leverages Python's `async` and `await` syntax to handle concurrency efficiently. Here is a breakdown of how it works:\n\n### 1. `async def` vs `def`\n*   **`async def`**: When you define a path operation with `async def`, FastAPI will execute it as an asynchronous coroutine. This is ideal for I/O-bound operations (e.g., calling an external API, querying a database, or reading/writing files), as it allows the server to handle other incoming requests while waiting for the I/O operation to complete.\n*   **`def`**: If you define a path operation with standard `def`, FastAPI will execute it in an external thread pool (so it doesn't block the main event loop) and then await it. This is useful for CPU-bound operations or libraries that do not support `async`.\n\n### 2. Concurrency and Performance\nFastAPI is designed to be highly performant by using the `asyncio` event loop. Because it is asynchronous, it can handle many concurrent connections without needing to spawn a new thread for every single request, which significantly reduces memory overhead and improves throughput for I/O-heavy applications.\n\n### 3. Best Practices\n*   **Use `async` for I/O**: Whenever possible, use `async` libraries (like `httpx` instead of `requests`, or `motor` instead of `pymongo`) to ensure your application remains non-blocking.\n*   **Avoid Blocking Code**: If you use a standard `def` function, be aware that if you perform heavy blocking operations (like `time.sleep()` or heavy computation) inside an `async def` function, you will block the entire event loop, preventing the server from handling other requests.\n*   **Mixing Sync and Async**: FastAPI is flexible. You can mix `async def` and `def` functions in the same application. FastAPI will automatically detect the type and handle the execution context appropriately.\n\n### 4. Handling Blocking Code\nIf you absolutely must call blocking code from within an `async` function, or vice versa, the documentation suggests looking into tools like [Asyncer](https://asyncer.tiangolo.com), which is a sibling library designed to help bridge the gap between synchronous and asynchronous code.\n\nFor more specific implementation details, you can check the official FastAPI documentation on [Async](https://fastapi.tiangolo.com/async/).",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIP+lVBYYYKeP2VVyFZP6HjogcE7UkQn0wvdwXn3v79azdKFNbsoLJCPbbPWJYG"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Can you check ticket TCK-102 for me?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.46,
+      "answer": [
+        {
+          "type": "text",
+          "text": "The status of ticket TCK-102 is **IN_PROGRESS**. It is a medium-priority ticket regarding how to configure CORS headers for a Streamlit frontend.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPD4PjCZnTGj2cI21pdgDtjlHD+N/ohzQeI9xr1GAmj5ux5W6FMtI2C2+VS98I"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "What is the capital of France?",
+      "category": "out_of_scope",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 0.86,
+      "answer": [
+        {
+          "type": "text",
+          "text": "The capital of France is Paris.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPOxEfYuEAAmkw2AKDo2hJikIYyq+80+jmnifSLtJZk1accOlhE1ZXaAHfcNOg"
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "How do I create a dependency injection in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 4.72,
+      "answer": [
+        {
+          "type": "text",
+          "text": "To create dependency injection in FastAPI, you primarily use the `Depends` class. Here is the standard approach:\n\n### 1. Create a Dependency Function\nA dependency is simply a function (or a callable class) that returns a value.\n\n```python\ndef get_query_token(token: str = Query(...)):\n    return token\n```\n\n### 2. Use the Dependency\nYou inject the dependency into your path operation function using `Depends`. FastAPI will execute the dependency, resolve its own sub-dependencies (if any), and pass the returned value to your function.\n\n```python\nfrom fastapi import Depends, FastAPI\n\napp = FastAPI()\n\ndef common_parameters(q: str | None = None, skip: int = 0, limit: int = 100):\n    return {\"q\": q, \"skip\": skip, \"limit\": limit}\n\n@app.get(\"/items/\")\nasync def read_items(commons: dict = Depends(common_parameters)):\n    return commons\n```\n\n### Key Concepts:\n*   **`Depends`**: This is the core tool. You pass your dependency function into `Depends()`, and FastAPI handles the rest.\n*   **Callable Classes**: You can also use classes as dependencies. If you define a `__call__` method in your class, FastAPI will use that method to resolve the dependency. This is useful for \"parameterizing\" dependencies (e.g., passing configuration to a dependency).\n*   **Reusability**: Dependencies can depend on other dependencies, creating a tree of dependencies that FastAPI resolves automatically.\n\nFor more complex scenarios, such as parameterizing dependencies or using classes, you can refer to the [FastAPI Advanced Dependencies documentation](https://fastapi.tiangolo.com/tutorial/dependencies/).",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPwxP+TkSYrnLNN95v+uTIwIlCzONRan6WKLfsaSS6zZUUr7oTcxan3krWtEA2"
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Is support ticket TCK-103 high priority?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.37,
+      "answer": [
+        {
+          "type": "text",
+          "text": "No, support ticket TCK-103 is not high priority; it is marked as **LOW** priority. The ticket is currently closed and concerned a syntax question regarding Pydantic model validation errors.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPwZBsO4VGRBbobUH6tlkL8olfFVmPuhf72VX623xSWr+Ba4dVoPnGQIElzbUn"
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Hi there!",
+      "category": "general_chat",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 0.57,
+      "answer": [
+        {
+          "type": "text",
+          "text": "Hello! How can I help you with FastAPI today? Whether you have a technical question or need to check the status of a support ticket, feel free to ask!",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPFvw8sJW6lq6obh0biM+aZzMMBl2aq9YL3ifGbV7dE8gYXKOE8Nn07v/sNVt/"
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "What are query parameters in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 39.19,
+      "answer": [
+        {
+          "type": "text",
+          "text": "In FastAPI, **query parameters** are the set of key-value pairs that appear after the `?` in a URL.\n\nWhen you declare function parameters in a FastAPI path operation function that are **not** part of the path parameters (i.e., they are not defined in the URL path string like `{item_id}`), FastAPI automatically interprets them as query parameters.\n\n### Example\nIf you have the following code:\n\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(skip: int = 0, limit: int = 10):\n    return {\"skip\": skip, \"limit\": limit}\n```\n\n*   If a user visits `http://127.0.0.1:8000/items/?skip=20&limit=5`, FastAPI will extract `skip=20` and `limit=5` and pass them to your function.\n*   Because you provided default values (`0` and `10`), these parameters are **optional**. If they are omitted from the URL, FastAPI will use the default values.\n\n### Key Characteristics:\n1.  **Automatic Parsing:** FastAPI automatically converts the query parameter strings into the type specified in your function signature (e.g., `int`, `bool`, `str`).\n2.  **Validation:** If a user provides a value that cannot be converted to the specified type (e.g., `?skip=abc`), FastAPI will automatically return a clear error response to the client.\n3.  **Documentation:** FastAPI automatically includes these query parameters in the generated OpenAPI (Swagger UI) documentation.\n\nFor more detailed information, you can check the official FastAPI documentation on [Query Parameters](https://fastapi.tiangolo.com/tutorial/query-params/).",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPFshWokqvgsrUiKnOOPl1HVbSSTlNLIl9A1nsFYcv/dwFi8H3WYn2/S7r81XK"
+          }
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "Where can I find status updates for ticket TCK-104?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.3,
+      "answer": [
+        {
+          "type": "text",
+          "text": "I'm sorry, but I couldn't find a ticket with the ID TCK-104 in the system. Please double-check the ticket ID and let me know if you'd like me to try again.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPzN5YaVk3vDkZMkN6uiOsucPGvgQ2Da8RzEW9CA5pU9q7GLJrspIJp1ue/2qb"
+          }
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "Who won the World Cup in 2022?",
+      "category": "out_of_scope",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 0.67,
+      "answer": [
+        {
+          "type": "text",
+          "text": "Argentina won the 2022 FIFA World Cup.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPJr7/KdjnBQFrnmR7gXp4UAv2Aw51gKm3EZw3C3Oc3XM6d0JTTFO5bGOSUT+F"
+          }
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "How do I handle request bodies in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 4.76,
+      "answer": [
+        {
+          "type": "text",
+          "text": "In FastAPI, you handle request bodies primarily by declaring **Pydantic models**. When you define a parameter in your path operation function that is not part of the path or query parameters, FastAPI automatically interprets it as a request body.\n\nHere is the standard way to handle JSON request bodies:\n\n### 1. Define a Pydantic Model\nFirst, create a class that inherits from `pydantic.BaseModel` to define the structure of your data.\n\n```python\nfrom pydantic import BaseModel\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n```\n\n### 2. Use the Model in your Path Operation\nSimply add the model as a parameter to your function. FastAPI will automatically:\n*   Read the request body as JSON.\n*   Convert the types (parsing).\n*   Validate the data.\n*   Provide clear errors if the data is invalid.\n*   Generate OpenAPI (Swagger UI) documentation for the request body.\n\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.post(\"/items/\")\nasync def create_item(item: Item):\n    return item\n```\n\n### Key Points:\n*   **Automatic Parsing:** FastAPI handles the conversion from JSON to your Python object automatically.\n*   **Validation:** If the client sends data that doesn't match your model (e.g., a string where a float is expected), FastAPI will return a 422 Unprocessable Entity error with details about the validation error.\n*   **Strict Content-Type:** By default, FastAPI expects a `Content-Type: application/json` header for JSON bodies.\n*   **Advanced Usage:** If you need to handle non-JSON bodies (like YAML or raw bytes), you can read the request body directly as `bytes` or use custom dependencies, though the Pydantic approach is the recommended standard for most use cases.\n\nFor more detailed information, you can check the official FastAPI documentation on [Request Body](https://fastapi.tiangolo.com/tutorial/body/).",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPKoS/U8I5Z+NY3BtGy7molWVJE4SMSIuuPbeBhBL1ISRqscC1E9mKBqJ/4CIK"
+          }
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "What problem is described in ticket TCK-105?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.4,
+      "answer": [
+        {
+          "type": "text",
+          "text": "I'm sorry, but I couldn't find a ticket with the ID TCK-105 in the system. Please double-check the ticket number and let me know if you'd like me to try again.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPOZD4CvL/zLxpVNANyRZyjcG6766HdCvj5R/AcQOc5Qg3iKHil5Eyvz2AQbvK"
+          }
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "Good morning!",
+      "category": "general_chat",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 0.69,
+      "answer": [
+        {
+          "type": "text",
+          "text": "Good morning! How can I help you today?",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPf6dL9mQ4E4ZKKuoSkrrDf24JXbTZhjSbP0c/cdvJpW9nFMoeTJSRXgo1hXV/"
+          }
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "How do OpenAPI callbacks work in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 5.26,
+      "answer": [
+        {
+          "type": "text",
+          "text": "In FastAPI, **OpenAPI Callbacks** are used to document an \"external API\" that your application will call after a specific event occurs. This is useful when your API triggers a request to a client's endpoint (a \"callback\") as part of a workflow.\n\nHere is how they work:\n\n### Key Concepts\n1.  **Documentation Only:** The callback function you define in FastAPI does not need to contain actual logic (it can just `pass`). Its sole purpose is to tell FastAPI how to document the external API in the generated OpenAPI schema (Swagger UI).\n2.  **The `callbacks` Parameter:** You define the callback by passing a list of `APIRoute` objects to the `callbacks` parameter of your path operation decorator.\n3.  **Path Expressions:** You can use [OpenAPI 3 expressions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#key-expression) in the callback path. This allows you to dynamically reference parameters or data from the original request sent to your API.\n\n### Basic Example Structure\n```python\nfrom fastapi import FastAPI, APIRouter\n\napp = FastAPI()\n\n# This is the \"external\" API that will be documented\ncallback_router = APIRouter()\n\n@callback_router.post(\"{$callback_url}/invoices/{$request.body#/id}\")\ndef invoice_notification(body: dict):\n    pass\n\n# This is your actual API endpoint\n@app.post(\"/invoices/\", callbacks=callback_router.routes)\ndef create_invoice(invoice: dict):\n    # Your logic to create the invoice\n    return {\"id\": invoice[\"id\"]}\n```\n\n### Why use them?\n*   **Clearer Documentation:** When a developer views your Swagger UI, they will see a \"Callbacks\" section under your path operation. This explicitly tells them what endpoint they need to provide for your system to \"call back\" to them.\n*   **Standardization:** It follows the OpenAPI 3.1.0 specification, ensuring that your API documentation is machine-readable and compatible with tools that generate client SDKs.\n\nFor more detailed implementation steps and advanced usage (like using expressions to reference request data), you can refer to the [official FastAPI documentation on OpenAPI Callbacks](https://fastapi.tiangolo.com/advanced/openapi-callbacks/).",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPs01U/SJLxlqgxgNiokKScU1TV5I5pVxUzWZ9Aqwi6mm1EwA/LmUsZ5IOsZAc"
+          }
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "Please retrieve the details for ticket TCK-101.",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 1.66,
+      "answer": [
+        {
+          "type": "text",
+          "text": "The details for ticket TCK-101 are as follows:\n\n*   **Status:** OPEN\n*   **Priority:** HIGH\n*   **Issue:** Database connection pooling failure in production.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPG480GybUmMYqJ9m0etiEwCK/5ag2utS+r0K9v4/QNU4BGaWEC+BPHU/DeMR9"
+          }
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "Explain quantum physics in simple terms.",
+      "category": "out_of_scope",
+      "expected_route": "direct_answer",
+      "actual_route": "direct_answer",
+      "passed": true,
+      "latency_seconds": 2.2,
+      "answer": [
+        {
+          "type": "text",
+          "text": "Quantum physics is the study of the very smallest things in the universe\u2014like atoms, electrons, and photons. At this tiny scale, the rules of the world we see every day (classical physics) stop working, and things get very strange.\n\nHere are the three main concepts that make quantum physics so different:\n\n### 1. Everything is a \"Wave\" and a \"Particle\"\nIn our daily lives, a ball is a solid object (a particle) and sound is a vibration (a wave). In the quantum world, tiny things act like both at the same time. An electron can travel like a wave across a room, but when it hits a wall, it lands in one specific spot like a particle.\n\n### 2. Superposition (Being in many states at once)\nImagine spinning a coin on a table. While it\u2019s spinning, is it heads or tails? It\u2019s kind of both, right? Quantum particles are like that spinning coin. They exist in a \"superposition\" of all possible states until you measure or observe them. The moment you look at them, they \"choose\" one state and stop being everything at once.\n\n### 3. Entanglement (Spooky connections)\nThis is the part that even Einstein found hard to believe. Two particles can become \"entangled,\" meaning they become linked regardless of how far apart they are. If you have two entangled particles and you change the state of one, the other one changes *instantly*, even if it\u2019s on the other side of the galaxy. It\u2019s as if they are communicating faster than the speed of light.\n\n***\n\n**In short:** Quantum physics tells us that at the deepest level, the universe isn't made of solid, predictable \"stuff.\" Instead, it\u2019s made of probabilities and possibilities that only become \"real\" when we interact with them. \n\nIt sounds like science fiction, but it\u2019s the foundation for almost all modern technology, including the computer or phone you are using right now!",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPewFfx709wcMOgLIgYewjsfoCuSyFgfmEsvo0B8SC4Ln6UmKHGjBQuwsD3rQE"
+          }
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "How do I serve static files in FastAPI?",
+      "category": "technical_docs",
+      "expected_route": "search_fastapi_docs",
+      "actual_route": "search_fastapi_docs",
+      "passed": true,
+      "latency_seconds": 4.35,
+      "answer": [
+        {
+          "type": "text",
+          "text": "To serve static files in FastAPI, you use the `StaticFiles` class from `fastapi.staticfiles`.\n\nHere is the standard way to set it up:\n\n1.  **Install `aiofiles`**: FastAPI requires this library to serve static files.\n    ```bash\n    pip install aiofiles\n    ```\n\n2.  **Mount the static directory**: In your FastAPI application, use the `.mount()` method to serve a directory of static files (like CSS, JavaScript, or images) under a specific path prefix.\n\n```python\nfrom fastapi import FastAPI\nfrom fastapi.staticfiles import StaticFiles\n\napp = FastAPI()\n\n# Mount the 'static' directory to the '/static' URL path\napp.mount(\"/static\", StaticFiles(directory=\"static\"), name=\"static\")\n```\n\n### Key points:\n*   **`directory`**: The path to the folder on your computer where your static files are stored.\n*   **`name`**: An internal name FastAPI uses for the mount (useful if you are using templates and want to generate URLs using `url_for`).\n*   **URL Access**: With the configuration above, a file located at `static/styles.css` will be accessible at `http://your-domain.com/static/styles.css`.\n\nIf you need to serve a single file dynamically (e.g., for a download), you can use `FileResponse` instead.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPKjgPEaXqhf8lYryuHHUk5qK4aZ62GKumAHtoCoZ711RYqDuV/XJUpDqHCVNd"
+          }
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "Has ticket TCK-102 been resolved yet?",
+      "category": "ticket_triage",
+      "expected_route": "check_ticket_status",
+      "actual_route": "check_ticket_status",
+      "passed": true,
+      "latency_seconds": 38.11,
+      "answer": [
+        {
+          "type": "text",
+          "text": "Ticket TCK-102 is currently **IN_PROGRESS**. It is a medium-priority ticket regarding how to configure CORS headers for a Streamlit frontend.",
+          "index": 0,
+          "extras": {
+            "signature": "EjQKMgERTTIPbGkMM/cCaA+EcseEPyyiExu4mkqTfppXLyLbQ+PrJ2KJ8MAgw4syFy2+VmKd"
+          }
+        }
+      ]
+    }
+  ]
+}

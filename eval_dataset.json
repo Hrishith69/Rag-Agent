@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "question": "How do path parameters work in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 2,
+    "question": "What is the status of ticket TCK-101?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 3,
+    "question": "Hello! How are you doing today?",
+    "expected_route": "direct_answer",
+    "category": "general_chat"
+  },
+  {
+    "id": 4,
+    "question": "Tell me about asynchronous code and concurrency in FastAPI.",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 5,
+    "question": "Can you check ticket TCK-102 for me?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 6,
+    "question": "What is the capital of France?",
+    "expected_route": "direct_answer",
+    "category": "out_of_scope"
+  },
+  {
+    "id": 7,
+    "question": "How do I create a dependency injection in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 8,
+    "question": "Is support ticket TCK-103 high priority?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 9,
+    "question": "Hi there!",
+    "expected_route": "direct_answer",
+    "category": "general_chat"
+  },
+  {
+    "id": 10,
+    "question": "What are query parameters in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 11,
+    "question": "Where can I find status updates for ticket TCK-104?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 12,
+    "question": "Who won the World Cup in 2022?",
+    "expected_route": "direct_answer",
+    "category": "out_of_scope"
+  },
+  {
+    "id": 13,
+    "question": "How do I handle request bodies in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 14,
+    "question": "What problem is described in ticket TCK-105?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 15,
+    "question": "Good morning!",
+    "expected_route": "direct_answer",
+    "category": "general_chat"
+  },
+  {
+    "id": 16,
+    "question": "How do OpenAPI callbacks work in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 17,
+    "question": "Please retrieve the details for ticket TCK-101.",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  },
+  {
+    "id": 18,
+    "question": "Explain quantum physics in simple terms.",
+    "expected_route": "direct_answer",
+    "category": "out_of_scope"
+  },
+  {
+    "id": 19,
+    "question": "How do I serve static files in FastAPI?",
+    "expected_route": "search_fastapi_docs",
+    "category": "technical_docs"
+  },
+  {
+    "id": 20,
+    "question": "Has ticket TCK-102 been resolved yet?",
+    "expected_route": "check_ticket_status",
+    "category": "ticket_triage"
+  }
+]

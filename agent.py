@@ -3,6 +3,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_classic.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_fastapi_docs, check_ticket_status
+from dotenv import load_dotenv
+load_dotenv()
 
 def build_triage_agent():
     # 1. Initialize Gemini LLM (temperature=0 for factual accuracy)
@@ -31,7 +33,7 @@ def build_triage_agent():
 
     # 4. Construct the Tool-Calling Agent & Executor Loop
     agent = create_tool_calling_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, return_intermediate_steps=True)
     return agent_executor
 
 if __name__ == "__main__":
